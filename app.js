@@ -1670,12 +1670,6 @@
   ];
 
   // ========== Favourites ==========
-  function normalizeStationUrl(url) {
-    if (window.location.protocol === "https:" && url && url.startsWith("http://")) {
-      return "https://" + url.substring(7);
-    }
-    return url;
-  }
   function loadFavourites() {
     try {
       const raw = localStorage.getItem("phosphor-favourites");
@@ -1686,16 +1680,14 @@
     localStorage.setItem("phosphor-favourites", JSON.stringify(favourites));
   }
   function isFavourite(url) {
-    const normUrl = normalizeStationUrl(url);
-    return favourites.some((f) => normalizeStationUrl(f.url) === normUrl);
+    return favourites.some((f) => f.url === url);
   }
   function toggleFavourite(name, url, channel) {
-    const normUrl = normalizeStationUrl(url);
-    const idx = favourites.findIndex((f) => normalizeStationUrl(f.url) === normUrl);
+    const idx = favourites.findIndex((f) => f.url === url);
     if (idx >= 0) {
       favourites.splice(idx, 1);
     } else {
-      favourites.push({ name, url: normUrl, channel: channel || null });
+      favourites.push({ name, url, channel: channel || null });
     }
     saveFavourites();
     buildStations();
@@ -1935,8 +1927,8 @@
     stList.innerHTML = "";
 
     // Build a combined list: favourites (including non-SomaFM) + SomaFM stations
-    const somaURLs = STATIONS.map((s) => normalizeStationUrl(s.url));
-    const extraFavs = favourites.filter((f) => !somaURLs.includes(normalizeStationUrl(f.url)));
+    const somaURLs = STATIONS.map((s) => s.url);
+    const extraFavs = favourites.filter((f) => !somaURLs.includes(f.url));
     const favSoma = STATIONS.filter((s) => isFavourite(s.url));
     const nonFavSoma = STATIONS.filter((s) => !isFavourite(s.url));
 
@@ -1944,7 +1936,7 @@
 
     // Render favourites first
     if (hasFavourites) {
-      extraFavs.forEach((f) => stList.appendChild(makeStationRow(f.name, normalizeStationUrl(f.url), f.channel, true)));
+      extraFavs.forEach((f) => stList.appendChild(makeStationRow(f.name, f.url, f.channel, true)));
       favSoma.forEach((s) => stList.appendChild(makeStationRow(s.name, s.url, s.channel, true)));
       const div = document.createElement("hr");
       div.className = "stations-divider";
@@ -1984,7 +1976,6 @@
   }
 
   function playStation(url, name, channel, corsExpected) {
-    url = normalizeStationUrl(url);
     hideStations();
     if (audio) audio.pause();
     if (directEl) { directEl.pause(); directEl.src = ""; }
@@ -2175,7 +2166,7 @@
     }
     results.forEach((s) => {
       if (!s.url_resolved && !s.url) return;
-      const streamUrl = normalizeStationUrl(s.url_resolved || s.url);
+      const streamUrl = s.url_resolved || s.url;
       const br = s.bitrate ? " " + s.bitrate + "k" : "";
       const displayName = s.name + br;
       const fav = isFavourite(streamUrl);
