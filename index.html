@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PHOSPHOR // 196X</title>
+<meta name="description" content="A CRT phosphor terminal music player with oscilloscope visualizer. Drag in audio or tune into internet radio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="overlay scanlines" aria-hidden="true"></div>
+  <div class="overlay vignette" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">■</span>
+      <span class="brand-name">PHOSPHOR</span>
+      <span class="brand-sub">// 196X</span>
+    </div>
+    <div class="status"><span class="led" id="led"></span><span id="statusTxt">STANDBY</span></div>
+  </header>
+
+  <div id="app" class="app">
+    <div id="drop" class="drop hidden" aria-hidden="true">
+      <div class="drop-inner">
+        <div class="drop-icon" aria-hidden="true">►</div>
+        <div class="drop-title blink">> LOAD TAPE</div>
+        <div class="drop-text">DROP AUDIO FILE · OR CLICK TO LOAD</div>
+      </div>
+      <input id="file" type="file" accept="audio/*" hidden multiple>
+      <input id="folderIn" type="file" webkitdirectory directory multiple hidden>
+    </div>
+
+    <main id="player" class="player" aria-hidden="false">
+      <div class="crt-bezel">
+        <div class="screen" id="screen">
+          <canvas id="viz" class="viz" aria-hidden="true"></canvas>
+          <div class="crt-hud" id="crtHud" role="status" aria-label="System status">
+            <div class="hud-line blink">> SYSTEM HUD</div>
+            <div class="hud-grid">
+              <span>STATE:</span><span id="hudState" class="hud-val">STANDBY</span>
+              <span id="hudStationLabel">STATION:</span><span id="hudStation" class="hud-val">—</span>
+              <span id="hudTrackLabel">TRACK:</span><span id="hudTrack" class="hud-val">—</span>
+              <span id="hudPosLabel" style="display:none">POSITION:</span><span id="hudPos" class="hud-val" style="display:none">—</span>
+              <span id="hudDurLabel" style="display:none">DURATION:</span><span id="hudDur" class="hud-val" style="display:none">—</span>
+              <span>FORMAT:</span><span id="hudFormat" class="hud-val">OFFLINE</span>
+              <span>VIZ:</span><span id="hudViz" class="hud-val">SCOPE</span>
+              <span>VOL:</span><span id="hudVol" class="hud-val">100%</span>
+            </div>
+          </div>
+          <div class="crt-glare" id="crtGlare" aria-hidden="true"></div>
+          <div class="crt-sweep" aria-hidden="true"></div>
+          <div class="screen-frame" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <div class="meta">
+        <div class="now">NOW PLAYING</div>
+        <div id="title" class="title">—</div>
+        <button id="likeBtn" class="btn like-btn hidden" title="Like this track" aria-label="Like track" aria-pressed="false">♡</button>
+        <div id="trackCount" class="track-count"></div>
+      </div>
+
+      <div class="readout">
+        <span id="cur" class="t">0:00</span>
+        <div class="seek">
+          <input id="seek" type="range" min="0" max="1000" value="0" aria-label="Seek">
+          <div class="seek-track" aria-hidden="true"></div>
+        </div>
+        <span id="dur" class="t">0:00</span>
+      </div>
+
+      <div class="controls">
+        <button id="prev" class="btn" title="Previous/Restart" aria-label="Previous track or restart">⏮</button>
+        <button id="play" class="btn play" title="Play/Pause" aria-label="Play or pause">▶</button>
+        <button id="next" class="btn" title="Next track (N)" aria-label="Next track">⏭</button>
+        <button id="repeat" class="btn" title="Repeat mode (X)" aria-label="Repeat mode">↻</button>
+        <button id="mute" class="btn" title="Mute" aria-label="Mute">🔊</button>
+        <div class="volwrap">
+          <span class="vol-label">VOL</span>
+          <input id="vol" type="range" class="vol" min="0" max="1" step="0.01" value="1" aria-label="Volume">
+        </div>
+        <div class="spacer"></div>
+        <button id="vizMode" class="btn btn-label" title="Visualization mode (V)" aria-label="Visualization mode">SCOPE</button>
+        <button id="themeBtn" class="btn btn-label" title="Phosphor theme (T)" aria-label="Phosphor theme">AMBER</button>
+        <button id="perfBtn" class="btn btn-label" title="Performance level (P)" aria-label="Performance level">PERF: NORMAL</button>
+        <button id="radio" class="btn" title="Internet radio (R)" aria-label="Internet radio">📡</button>
+        <button id="favBtn" class="btn" title="Favourite (Y)" aria-label="Toggle favourite">☆</button>
+        <button id="open" class="btn" title="Open files" aria-label="Open files">📂</button>
+        <button id="folderBtn" class="btn" title="Open folder (F)" aria-label="Open folder">📁</button>
+        <button id="queueBtn" class="btn" title="Queue (Q)" aria-label="Playlist queue">☰</button>
+        <button id="historyBtn" class="btn" title="History (H)" aria-label="Playback history">🕘</button>
+      </div>
+    </main>
+
+    <div id="stations" class="stations hidden" aria-hidden="true">
+      <div class="stations-head">> SIGNAL — SELECT STATION</div>
+      <div class="stations-list" id="stList"></div>
+      <div class="search-wrap">
+        <input id="searchInput" type="text" class="search-input" placeholder="> SEARCH RADIOBROWSER..." aria-label="Search stations">
+        <div id="searchResults" class="search-results"></div>
+      </div>
+      <div class="stations-foot">SOMAFM = FULL VIZ · OTHERS MAY BE AUDIO ONLY</div>
+    </div>
+
+    <div id="queuePanel" class="stations hidden" aria-hidden="true">
+      <div class="stations-head">> QUEUE — SELECT TRACK</div>
+      <div class="stations-list" id="qList"></div>
+      <div class="stations-foot">CLICK TO JUMP</div>
+    </div>
+
+    <div id="historyPanel" class="stations hidden" aria-hidden="true">
+      <div class="hist-tabs">
+        <button id="tabHistory" class="hist-tab active" aria-pressed="true">> HISTORY</button>
+        <button id="tabLiked" class="hist-tab" aria-pressed="false">> LIKED</button>
+      </div>
+      <div id="histList" class="stations-list hist-list"></div>
+      <div class="stations-foot" id="histFoot">AUTO-ROTATES AFTER 200 ENTRIES</div>
+    </div>
+  </div>
+
+  <footer class="hint">> SPC=PLAY · N=NEXT · ←→=SEEK · ↑↓=VOL · M=MUTE · R=RADIO · Y=FAV · Q=QUEUE · F=FOLDER · X=REPEAT · T=THEME · V=VIZ · P=PERF · I=INFO · H=HISTORY</footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

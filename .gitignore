@@ -1,0 +1,37 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-*
+
+# Audio data (don't commit music files)
+*.mp3
+*.wav
+*.ogg
+*.oga
+*.flac
+*.aac
+*.m4a
+*.opus
+*.weba
+*.webm
+
+# Dependencies (if ever added)
+node_modules/
+
+# Build artifacts (if ever added)
+dist/
+build/
+
+# Logs
+*.log
+
+# Personal docs
+docs/
