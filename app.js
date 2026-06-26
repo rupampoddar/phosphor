@@ -33,7 +33,6 @@
   const folderBtn = $("folderBtn");
   const folderIn  = $("folderIn");
   const trackCountEl = $("trackCount");
-  const favBtn    = $("favBtn");
   const likeBtn   = $("likeBtn");
   const historyBtn = $("historyBtn");
   const historyPanel = $("historyPanel");
@@ -43,6 +42,22 @@
   const histFoot  = $("histFoot");
 
   const ctx = viz.getContext("2d", { alpha: false, desynchronized: true });
+  const ICON_SPRITE = "assets/icons.svg#";
+
+  function setIcon(el, icon) {
+    if (!el) return;
+    el.replaceChildren(createIcon(icon));
+  }
+
+  function createIcon(icon) {
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
+    svg.classList.add("ico");
+    svg.setAttribute("aria-hidden", "true");
+    use.setAttribute("href", ICON_SPRITE + icon);
+    svg.appendChild(use);
+    return svg;
+  }
 
   // ========== Audio state ==========
   let audio = null, radioEl = null, directEl = null;
@@ -1598,7 +1613,6 @@
     startLoop();
     renderQueue();
     updateTrackCount();
-    updateFavBtn();
     updateLikeBtn();
   }
 
@@ -1691,22 +1705,12 @@
     }
     saveFavourites();
     buildStations();
-    updateFavBtn();
   }
 
-  function updateFavBtn() {
-    if (!currentStation || mode !== "radio") {
-      favBtn.style.opacity = "0.3";
-      favBtn.classList.remove("fav-active");
-      favBtn.textContent = "☆";
-      favBtn.title = "No station playing";
-      return;
+  function toggleCurrentFavourite() {
+    if (currentStation && mode === "radio") {
+      toggleFavourite(currentStation.name, currentStation.url, currentStation.channel);
     }
-    favBtn.style.opacity = "1";
-    const fav = isFavourite(currentStation.url);
-    favBtn.textContent = fav ? "★" : "☆";
-    favBtn.classList.toggle("fav-active", fav);
-    favBtn.title = fav ? "Remove from favourites (Y)" : "Add to favourites (Y)";
   }
 
   // ========== History ==========
@@ -1841,7 +1845,7 @@
       empty.className = "hist-empty";
       empty.textContent = "> NO LIKED TRACKS YET";
       histList.appendChild(empty);
-      if (histFoot) histFoot.textContent = "CLICK ♡ WHILE RADIO IS PLAYING";
+      if (histFoot) histFoot.textContent = "LIKE TRACKS WHILE RADIO IS PLAYING";
       return;
     }
     likedTracks.forEach((t) => {
@@ -1899,7 +1903,7 @@
     } else {
       likedTracks.unshift({ track: currentTrackTitle, station: currentStationTitle, likedAt: Date.now() });
       if (likedTracks.length > LIKED_MAX) likedTracks.length = LIKED_MAX;
-      flashStatus("♥ " + currentTrackTitle);
+      flashStatus("LIKED: " + currentTrackTitle);
     }
     saveLiked();
     updateLikeBtn();
@@ -1917,7 +1921,7 @@
     likeBtn.classList.remove("hidden");
     likeBtn.setAttribute("aria-hidden", "false");
     const liked = isLikedTrack(currentTrackTitle, currentStationTitle);
-    likeBtn.textContent = liked ? "♥" : "♡";
+    setIcon(likeBtn, "i-heart");
     likeBtn.classList.toggle("liked", liked);
     likeBtn.setAttribute("aria-pressed", liked);
     likeBtn.title = liked ? "Unlike this track" : "Like this track";
@@ -1952,8 +1956,9 @@
 
     const star = document.createElement("button");
     star.className = "star-btn" + (isFav ? " fav" : "");
-    star.textContent = isFav ? "★" : "☆";
+    star.appendChild(createIcon("i-star"));
     star.title = isFav ? "Remove from favourites" : "Add to favourites";
+    star.setAttribute("aria-label", star.title);
     star.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
@@ -2016,7 +2021,6 @@
     stopIdle();
     startLoop();
     startMetadata(channel);
-    updateFavBtn();
     updateLikeBtn();
   }
 
@@ -2176,7 +2180,9 @@
 
       const star = document.createElement("button");
       star.className = "star-btn" + (fav ? " fav" : "");
-      star.textContent = fav ? "★" : "☆";
+      star.appendChild(createIcon("i-star"));
+      star.title = fav ? "Remove from favourites" : "Add to favourites";
+      star.setAttribute("aria-label", star.title);
       star.addEventListener("click", (e) => {
         e.stopPropagation();
         toggleFavourite(displayName, streamUrl, null);
@@ -2223,7 +2229,7 @@
   let isPlayingState = false;
   function setPlaying(p) {
     isPlayingState = p;
-    playBtn.textContent = p ? "⏸" : "▶";
+    setIcon(playBtn, p ? "i-pause" : "i-play");
     playBtn.setAttribute("aria-label", p ? "Pause" : "Play");
   }
   function renderStatus() {
@@ -2307,13 +2313,8 @@
   });
   openBtn.addEventListener("click", () => { openFileDialog(fileIn); });
   folderBtn.addEventListener("click", () => { openFileDialog(folderIn); });
-  favBtn.addEventListener("click", () => {
-    if (currentStation && mode === "radio") {
-      toggleFavourite(currentStation.name, currentStation.url, currentStation.channel);
-    }
-  });
   const syncMuteBtn = (muted) => {
-    muteBtn.textContent = muted ? "🔇" : "🔊";
+    setIcon(muteBtn, muted ? "i-mute" : "i-volume");
     muteBtn.setAttribute("aria-label", muted ? "Unmute" : "Mute");
     muteBtn.setAttribute("aria-pressed", muted ? "true" : "false");
   };
@@ -2681,7 +2682,7 @@
     if (e.key === "q" || e.key === "Q") { queueBtn.click(); return; }
     if (e.key === "h" || e.key === "H") { historyBtn.click(); return; }
     if (e.key === "f" || e.key === "F") { openFileDialog(folderIn); return; }
-    if (e.key === "y" || e.key === "Y") { favBtn.click(); return; }
+    if (e.key === "y" || e.key === "Y") { toggleCurrentFavourite(); return; }
     if (e.key === "x" || e.key === "X") { repeatBtn.click(); return; }
     if (e.key === "t" || e.key === "T") { cycleTheme(); return; }
     if (e.key === "v" || e.key === "V") { cycleVizMode(); return; }

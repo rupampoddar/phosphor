@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>PHOSPHOR // 196X</title>
 <meta name="description" content="A CRT phosphor terminal music player with oscilloscope visualizer. Drag in audio or tune into internet radio.">
+<meta property="og:title" content="PHOSPHOR // 196X">
+<meta property="og:description" content="A CRT phosphor terminal music player with oscilloscope visualizer, internet radio, and local audio playback.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rupampoddar.com/phosphor/">
+<meta property="og:image" content="https://rupampoddar.com/phosphor/assets/phosphor-scope.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PHOSPHOR // 196X">
+<meta name="twitter:description" content="A CRT phosphor terminal music player with oscilloscope visualizer, internet radio, and local audio playback.">
+<meta name="twitter:image" content="https://rupampoddar.com/phosphor/assets/phosphor-scope.png">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=VT323&display=swap" rel="stylesheet">
@@ -26,7 +36,7 @@
   <div id="app" class="app">
     <div id="drop" class="drop hidden" aria-hidden="true">
       <div class="drop-inner">
-        <div class="drop-icon" aria-hidden="true">►</div>
+        <div class="drop-icon" aria-hidden="true"><svg class="ico ico-lg"><use href="assets/icons.svg#i-play"></use></svg></div>
         <div class="drop-title blink">> LOAD TAPE</div>
         <div class="drop-text">DROP AUDIO FILE · OR CLICK TO LOAD</div>
       </div>
@@ -60,7 +70,7 @@
       <div class="meta">
         <div class="now">NOW PLAYING</div>
         <div id="title" class="title">—</div>
-        <button id="likeBtn" class="btn like-btn hidden" title="Like this track" aria-label="Like track" aria-pressed="false">♡</button>
+        <button id="likeBtn" class="btn like-btn hidden" title="Like this track" aria-label="Like track" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="assets/icons.svg#i-heart"></use></svg></button>
         <div id="trackCount" class="track-count"></div>
       </div>
 
@@ -73,26 +83,39 @@
         <span id="dur" class="t">0:00</span>
       </div>
 
-      <div class="controls">
-        <button id="prev" class="btn" title="Previous/Restart" aria-label="Previous track or restart">⏮</button>
-        <button id="play" class="btn play" title="Play/Pause" aria-label="Play or pause">▶</button>
-        <button id="next" class="btn" title="Next track (N)" aria-label="Next track">⏭</button>
-        <button id="repeat" class="btn" title="Repeat mode (X)" aria-label="Repeat mode">↻</button>
-        <button id="mute" class="btn" title="Mute" aria-label="Mute">🔊</button>
-        <div class="volwrap">
-          <span class="vol-label">VOL</span>
-          <input id="vol" type="range" class="vol" min="0" max="1" step="0.01" value="1" aria-label="Volume">
+      <div class="controls-deck">
+        <div class="controls-row controls-primary">
+          <div class="control-group source-group">
+            <button id="radio" class="btn" title="Internet radio (R)" aria-label="Internet radio"><svg class="ico" aria-hidden="true"><use href="assets/icons.svg#i-radio"></use></svg></button>
+            <button id="open" class="btn" title="Open files" aria-label="Open files"><svg class="ico" aria-hidden="true"><use href="assets/icons.svg#i-file-open"></use></svg></button>
+            <button id="folderBtn" class="btn" title="Open folder (F)" aria-label="Open folder"><svg class="ico" aria-hidden="true"><use href="assets/icons.svg#i-folder"></use></svg></button>
+          </div>
+          <div class="control-group transport-group">
+            <button id="prev" class="btn" title="Previous/Restart" aria-label="Previous track or restart"><svg class="ico" aria-hidden="true"><use href="assets/icons.svg#i-prev"></use></svg></button>
+            <button id="play" class="btn play" title="Play/Pause" aria-label="Play or pause"><svg class="ico" aria-hidden="true"><use href="assets/icons.svg#i-play"></use></svg></button>
+            <button id="next" class="btn" title="Next track (N)" aria-label="Next track"><svg class="ico" aria-hidden="true"><use href="assets/icons.svg#i-next"></use></svg></button>
+            <button id="repeat" class="btn" title="Repeat mode (X)" aria-label="Repeat mode"><svg class="ico" aria-hidden="true"><use href="assets/icons.svg#i-repeat"></use></svg></button>
+          </div>
+          <div class="control-group volume-group">
+            <button id="mute" class="btn" title="Mute" aria-label="Mute"><svg class="ico" aria-hidden="true"><use href="assets/icons.svg#i-volume"></use></svg></button>
+            <div class="volwrap">
+              <span class="vol-label">VOL</span>
+              <input id="vol" type="range" class="vol" min="0" max="1" step="0.01" value="1" aria-label="Volume">
+            </div>
+          </div>
         </div>
-        <div class="spacer"></div>
-        <button id="vizMode" class="btn btn-label" title="Visualization mode (V)" aria-label="Visualization mode">SCOPE</button>
-        <button id="themeBtn" class="btn btn-label" title="Phosphor theme (T)" aria-label="Phosphor theme">AMBER</button>
-        <button id="perfBtn" class="btn btn-label" title="Performance level (P)" aria-label="Performance level">PERF: NORMAL</button>
-        <button id="radio" class="btn" title="Internet radio (R)" aria-label="Internet radio">📡</button>
-        <button id="favBtn" class="btn" title="Favourite (Y)" aria-label="Toggle favourite">☆</button>
-        <button id="open" class="btn" title="Open files" aria-label="Open files">📂</button>
-        <button id="folderBtn" class="btn" title="Open folder (F)" aria-label="Open folder">📁</button>
-        <button id="queueBtn" class="btn" title="Queue (Q)" aria-label="Playlist queue">☰</button>
-        <button id="historyBtn" class="btn" title="History (H)" aria-label="Playback history">🕘</button>
+        <div class="controls-row controls-secondary">
+          <div class="control-group library-group">
+            <button id="queueBtn" class="btn btn-with-icon" title="Queue (Q)" aria-label="Playlist queue"><svg class="ico" aria-hidden="true"><use href="assets/icons.svg#i-queue"></use></svg><span>QUEUE</span></button>
+            <button id="historyBtn" class="btn btn-with-icon" title="History (H)" aria-label="Playback history"><svg class="ico" aria-hidden="true"><use href="assets/icons.svg#i-history"></use></svg><span>HIST</span></button>
+          </div>
+          <div class="control-group display-group">
+            <button id="vizMode" class="btn btn-label" title="Visualization mode (V)" aria-label="Visualization mode">SCOPE</button>
+            <button id="themeBtn" class="btn btn-label" title="Phosphor theme (T)" aria-label="Phosphor theme">AMBER</button>
+            <button id="perfBtn" class="btn btn-label" title="Performance level (P)" aria-label="Performance level">PERF: NORMAL</button>
+          </div>
+          <div class="control-group deck-fill" aria-hidden="true"></div>
+        </div>
       </div>
     </main>
 

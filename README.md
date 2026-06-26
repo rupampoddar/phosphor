@@ -2,6 +2,8 @@
 
 A web-based music player with a CRT phosphor terminal aesthetic. Tune into free internet radio or drop in local audio files — no build step, no dependencies, runs on a potato. 13 visualizer modes, playlist queue, favourites, playback history, liked tracks, and a 3D-reactive starfield.
 
+Local audio files never leave your browser. Phosphor plays dropped files directly from your device and stores preferences, favourites, history, and liked tracks in `localStorage`.
+
 ![License](https://img.shields.io/badge/license-MIT-33ff33) ![no deps](https://img.shields.io/badge/dependencies-zero-44aaff) ![potato](https://img.shields.io/badge/potato%20friendly-ffb000)
 
 **[Live Demo →](https://rupampoddar.com/phosphor)**
@@ -15,7 +17,7 @@ A web-based music player with a CRT phosphor terminal aesthetic. Tune into free 
 
 - **Internet radio** — 12 free SomaFM stations built in + RadioBrowser search (thousands of stations)
 - **Drag & drop audio** — drop any audio file (MP3, WAV, OGG, M4A, FLAC, Opus, WebM) onto the screen
-- **Folder import** — import an entire directory (📁 button or `F` key)
+- **Folder import** — import an entire directory (folder button or `F` key)
 - **Playlist / queue** — multi-file drop auto-queues tracks, auto-advance, `Q` toggles queue panel
 - **13 visualizer modes** — scope, bars, VU, LEDs, lissajous, waterfall, sonar, ripples, warp, horizon, particles, radar, off
 - **4 phosphor themes** — Amber (P3), Green (P1), Blue (P11), White (P4)
@@ -23,7 +25,7 @@ A web-based music player with a CRT phosphor terminal aesthetic. Tune into free 
 - **CRT HUD overlay** — live system info panel (state, station, track, format, viz, volume)
 - **Typewriter title cycling** — radio now-playing alternates station ↔ track with backspace/type animation
 - **Playback history** — automatic timeline of every session with timestamps, duration, and end reason
-- **Liked tracks** — ♡ button saves radio track names for later lookup
+- **Liked tracks** — heart button saves radio track names for later lookup
 - **Favourites** — star stations to pin them to the top
 - **Repeat modes** — off / all / one
 - **Authentic CRT effects** — scanlines, phosphor bloom, screen curvature vignette, flicker, afterglow persistence, mouse-tracked glare, animated sweep line
@@ -90,7 +92,7 @@ Open http://localhost:1960 in your browser.
 | H | Toggle history / liked tracks panel |
 | Esc | Close panels |
 
-Click 📡 for radio, 📁 for folder, 🕘 for history, or drop files anywhere. Click the screen to toggle the HUD. Click ♡ next to the title to like the current radio track.
+Click the radio, folder, or history buttons, or drop files anywhere. Click the screen to toggle the HUD. Click the heart next to the title to like the current radio track.
 
 ## Themes
 
@@ -177,11 +179,11 @@ Every time you play a local file or radio station, a history entry is recorded a
 - **Duration** — how long it played
 - **End reason** — `DONE` (completed), `SKIP` (switched), `ERR` (error)
 
-History auto-rotates after 200 entries. Open with `H` key or the 🕘 button.
+History auto-rotates after 200 entries. Open with the `H` key or history button.
 
 ### Liked Tracks
 
-When listening to radio with SomaFM track metadata, a ♡ button appears next to the now-playing title. Click it to save the current track. Each liked entry stores the track name, station, and timestamp. Liked tracks are deduplicated by track + station and auto-rotate after 200 entries.
+When listening to radio with SomaFM track metadata, a heart button appears next to the now-playing title. Click it to save the current track. Each liked entry stores the track name, station, and timestamp. Liked tracks are deduplicated by track + station and auto-rotate after 200 entries.
 
 Both history and liked tracks are persisted in `localStorage`.
 

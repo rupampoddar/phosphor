@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <symbol id="i-play" viewBox="0 0 24 24">
+    <path d="M8 5v14l11-7z" />
+  </symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24">
+    <path d="M8 5v14" />
+    <path d="M16 5v14" />
+  </symbol>
+  <symbol id="i-prev" viewBox="0 0 24 24">
+    <path d="M6 5v14" />
+    <path d="M18 6l-9 6 9 6z" />
+  </symbol>
+  <symbol id="i-next" viewBox="0 0 24 24">
+    <path d="M18 5v14" />
+    <path d="M6 6l9 6-9 6z" />
+  </symbol>
+  <symbol id="i-repeat" viewBox="0 0 24 24">
+    <path d="M7 7h10l3 3" />
+    <path d="M20 10l-3 3" />
+    <path d="M17 17H7l-3-3" />
+    <path d="M4 14l3-3" />
+  </symbol>
+  <symbol id="i-volume" viewBox="0 0 24 24">
+    <path d="M4 10v4h4l5 4V6L8 10z" />
+    <path d="M16 9c1 1 1 5 0 6" />
+    <path d="M19 6c3 3 3 9 0 12" />
+  </symbol>
+  <symbol id="i-mute" viewBox="0 0 24 24">
+    <path d="M4 10v4h4l5 4V6L8 10z" />
+    <path d="M17 9l5 6" />
+    <path d="M22 9l-5 6" />
+  </symbol>
+  <symbol id="i-radio" viewBox="0 0 24 24">
+    <path d="M12 20V9" />
+    <path d="M8 20h8" />
+    <path d="M9 9l3-5 3 5" />
+    <path d="M6 12c-2-3-2-6 0-9" />
+    <path d="M18 12c2-3 2-6 0-9" />
+    <path d="M8 10c-1-2-1-4 0-6" />
+    <path d="M16 10c1-2 1-4 0-6" />
+  </symbol>
+  <symbol id="i-star" viewBox="0 0 24 24">
+    <path d="M12 3l2.5 6 6.5.5-5 4.2 1.6 6.3-5.6-3.3L6.4 20 8 13.7 3 9.5 9.5 9z" />
+  </symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24">
+    <path d="M12 20S4 14 4 8.5C4 6 6 4 8.5 4c1.5 0 2.7.7 3.5 2 .8-1.3 2-2 3.5-2C18 4 20 6 20 8.5 20 14 12 20 12 20z" />
+  </symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24">
+    <path d="M3 7h7l2 3h9v9H3z" />
+    <path d="M3 10h18" />
+  </symbol>
+  <symbol id="i-file-open" viewBox="0 0 24 24">
+    <path d="M6 3h8l4 4v5" />
+    <path d="M14 3v5h5" />
+    <path d="M5 13h14l-2 7H3z" />
+  </symbol>
+  <symbol id="i-queue" viewBox="0 0 24 24">
+    <path d="M5 7h14" />
+    <path d="M5 12h14" />
+    <path d="M5 17h9" />
+    <path d="M17 15l3 2-3 2z" />
+  </symbol>
+  <symbol id="i-history" viewBox="0 0 24 24">
+    <path d="M5 7v5h5" />
+    <path d="M5.5 12A7 7 0 1 0 8 6" />
+    <path d="M12 8v5l4 2" />
+  </symbol>
+  <symbol id="i-waveform" viewBox="0 0 24 24">
+    <path d="M3 12h3l2-6 3 12 3-12 2 6h5" />
+    <path d="M3 19h18" />
+  </symbol>
+  <symbol id="i-theme" viewBox="0 0 24 24">
+    <path d="M6 5h12v10H6z" />
+    <path d="M8 17h8" />
+    <path d="M10 20h4" />
+    <path d="M9 8h6" />
+    <path d="M9 11h3" />
+  </symbol>
+  <symbol id="i-chip" viewBox="0 0 24 24">
+    <path d="M7 7h10v10H7z" />
+    <path d="M10 10h4v4h-4z" />
+    <path d="M4 9h3" />
+    <path d="M4 15h3" />
+    <path d="M17 9h3" />
+    <path d="M17 15h3" />
+    <path d="M9 4v3" />
+    <path d="M15 4v3" />
+    <path d="M9 17v3" />
+    <path d="M15 17v3" />
+  </symbol>
+  <symbol id="i-info" viewBox="0 0 24 24">
+    <path d="M12 4h.01" />
+    <path d="M9 9h3v9" />
+    <path d="M9 18h6" />
+    <path d="M5 5h14v14H5z" />
+  </symbol>
+</svg>
